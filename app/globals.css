@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #131313;
+    --sidebar-background: #202020;
+    --sidebar-background-secondary: #303030;
+
+    --card-background: #1A1A1A;
+
+    --text-primary: white;
+    --text-focus-secondary: #fafa50;
+    --text-focus: #6563EE;
+    --text-focus-background: rgba(101, 99, 238, .20);
+
+    --active-button: #5050FA;
+
+    --income-text: #5DFA52;
+    --income-background: rgba(93, 250, 82, 0.25);
+
+    --loss-text: #D33F49;
+    --loss-background: rgba(211, 63, 73, 0.25);
   }
 }
 
+@font-face {
+  font-family: 'Monocraft';
+  src: url('/public/Monocraft.ttf') format(truetype);
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Monocraft', sans-serif;
 }
