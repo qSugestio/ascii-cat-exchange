@@ -1,9 +1,16 @@
-import Button from './Button'
+import TabsButton from './TabsButton'
 
 const Header = () => {
   return (
-    <header className='bg-[rgba(32,32,32,.5)] w-screen h-fit p-2.5'>
-      <Button title='Биржа' />
+    <header className='bg-transparent w-screen h-fit p-2.5 flex justify-between'>
+      <div>
+        <TabsButton title='Portfolio' />
+        <TabsButton title='Transactions' />
+        <TabsButton title='Market' />
+      </div>
+      <div>
+        <TabsButton title='NICKNAME' />
+      </div>
     </header>
   )
 }
