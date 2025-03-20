@@ -1,10 +1,9 @@
-import Header from '@/components/Header/Header'
+import Portfolio from '@/components/Pages/Portfolio/Portfolio'
 
 export default function Home() {
   return (
-    <div>
-      <Header />
-      <main>main</main>
-    </div>
+    <>
+      <Portfolio />
+    </>
   )
 }
