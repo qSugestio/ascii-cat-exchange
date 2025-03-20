@@ -8,7 +8,7 @@ const Chart = ({ prices, height }: { prices: number[]; height: number }) => {
     day: `Day ${index + 1}`,
     price,
   }))
-  console.log(data)
+
   return (
     <ResponsiveContainer width='100%' height={height}>
       <AreaChart data={data}>
