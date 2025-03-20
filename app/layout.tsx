@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='antialiased vsc-initialized'>{children}</body>
+      <body className='antialiased vsc-initialized flex flex-col h-screen'>
+        {children}
+      </body>
     </html>
   )
 }
