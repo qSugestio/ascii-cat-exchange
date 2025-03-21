@@ -3,7 +3,13 @@
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import CustomTooltip from './CustomTooltip'
 
-const Chart = ({ prices, height }: { prices: number[]; height: number }) => {
+const Chart = ({
+  prices,
+  height = 50,
+}: {
+  prices: number[]
+  height?: number
+}) => {
   const data = prices.map((price, index) => ({
     day: `Day ${index + 1}`,
     price,
