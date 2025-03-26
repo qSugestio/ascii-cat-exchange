@@ -9,7 +9,7 @@ const Header = () => {
         <TabsButton title='Market' />
       </div>
       <div>
-        <TabsButton title='NICKNAME' />
+        <TabsButton title='Account' />
       </div>
     </header>
   )

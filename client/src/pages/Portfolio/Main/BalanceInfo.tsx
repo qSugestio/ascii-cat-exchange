@@ -4,7 +4,7 @@ import Wrapper from '@/components/Other/Wrapper'
 const BalanceInfo = () => {
   return (
     <Wrapper title='Total Balance'>
-      <p className='text-(--text-focus) after:content-["▼"] after:text-lg'>
+      <p className='text-(--text-focus) after:content-["▼"] after:text-lg bg-(--text-focus-background) w-fit px-2.5 py-1 rounded-xl'>
         12,521.12
       </p>
       <div className='flex items-center mb-2'>
