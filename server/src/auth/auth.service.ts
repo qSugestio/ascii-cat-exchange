@@ -1,41 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { ConflictException, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
-import { AuthUserDto } from './dto/auth-user.dto';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'prisma/prisma.service';
+import { comparePasswords, hashPassword } from 'utils/bcrypt';
+
+// TODO: reset password
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async register(dto: AuthUserDto) {
-    const { username, password } = dto;
-    // TODO: Здесь можно добавить хеширование пароля, например, с bcrypt
-
-    try {
-      const user = await this.databaseService.createUser(username, password);
-      return { id: user.id, username: username };
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      )
-        throw new ConflictException(
-          'Пользователь с таким именем уже существует!',
-        );
-      if (error instanceof Prisma.PrismaClientValidationError)
-        throw new ConflictException('Пропущен аргумент');
-      throw error;
-    }
+  async login(username: string, password: string): Promise<boolean> {
+    const user = await this.prismaService.prisma.user.findUnique({
+      where: { username: username },
+    });
+    if (!user) throw new Error('User not found');
+    return await comparePasswords(password, user.password);
   }
 
-  async login(dto: AuthUserDto) {
-    const { username, password } = dto;
-
-    const user = await this.databaseService.findUserByNickname(username);
-    if (!user || user.password !== password)
-      throw new Error('Invalid credentials!'); //TODO: Простая проверка, лучше использовать bcrypt
-    return { id: user.id, username: user.username };
+  async register(username: string, password: string) {
+    // TODO: add return type
+    const hash = await hashPassword(password);
+    return await this.prismaService.prisma.user.create({
+      data: { username, password: hash },
+    });
   }
 }

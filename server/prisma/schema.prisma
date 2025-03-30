@@ -6,3 +6,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  wallet Wallet?
+}
+
+model Wallet {
+  address String @id @default(uuid())
+  balance Float  @default(0.00)
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  sentTransactions      Transaction[] @relation("SentTransactions")
+  receiverdTransactions Transaction[] @relation("ReceivedTransactions")
+
+  coins CoinInWallet[]
+}
+
+model CoinInWallet {
+  id        Int   @id @default(autoincrement())
+  quantity  Int
+  unitPrice Float
+  totalCost Float
+
+  dateOfPurchase DateTime[]
+  transactions   Transaction[]
+
+  coin     Coin   @relation(fields: [coinName], references: [name])
+  coinName String
+
+  wallet  Wallet @relation(fields: [address], references: [address])
+  address String
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+
+  transactionDate DateTime       @default(now())
+  coins           CoinInWallet[]
+  // coinAssets      CoinAsset[]
+
+  sellerWallet        Wallet @relation(name: "SentTransactions", fields: [sellerWalletAddress], references: [address])
+  sellerWalletAddress String
+
+  buyerWallet        Wallet @relation(name: "ReceivedTransactions", fields: [buyerWalletAddress], references: [address])
+  buyerWalletAddress String
+}
+
+model Coin {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  priceHistory Float[]
+  lastPrice    Float
+  volume       Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  // coinAsset    CoinAsset[]
+  coinInWallet CoinInWallet[]
+}
